@@ -67,6 +67,7 @@ def player_turn
     if @enemy.hp < 1
         @enemy.hp = 0
     end
+    puts ""
     puts "#{@enemy.name} has #{@enemy.hp} HP"
     puts "#{@player.name} has #{@player.hp} HP"
     puts ""
@@ -97,6 +98,7 @@ def enemy_turn
     if @player.hp < 1 
         @player.hp = 0
     end
+    puts ""
     puts "#{@enemy.name} has #{@enemy.hp} HP"
     puts "#{@player.name} has #{@player.hp} HP"
     puts ""
@@ -217,15 +219,14 @@ class Archer < Fighter
     end
 
     def power_up
-        if self.hp < 24
-            @health = self.hp
-        elsif self.hp > 25
-            @health = 18
-        end
-        if @health < 15
-            @health += 10
+        @health = self.hp / 5
+        if @health < 10
+            @health *= rand(2..3)
+        elsif @health < 5
+            @health *= rand(2..5)
         end
         self.hp += @health
+        puts "#{name} gains #{@health} HP"
         super
     end
     
