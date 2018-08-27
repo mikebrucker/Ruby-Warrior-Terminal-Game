@@ -2,9 +2,9 @@
 
 Ruby Object Oriented Battle Text Based Game in Terminal
 
-Download files
-On Mac open terminal and navigate to folder where you downloaded the files.
-Type Ruby (filename).rb to run the game
+Download files.  
+On Mac open terminal and navigate to folder where you downloaded the files.  
+Type Ruby (filename).rb to run the game.
 
 It’s going to be a battle royale object oriented style! Provided is the outline for a Fighter class with the basic methods and attributes that your fighters should have. Finish the damage implementation for the attack method on Fighter. Finish implementing the take_damage method on Fighter. Create at least two unique subclasses of Fighter where you will add at least one custom attack method (It will output a different message and do a different amount of damage).
 
