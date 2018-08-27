@@ -205,7 +205,7 @@ class Archer < Fighter
     end
     
     def attack_1
-        $damage = rand(3..7) * rand(7)
+        $damage = rand(3..7) * rand(3..7)
         @powerup_ability = false
         super
     end
