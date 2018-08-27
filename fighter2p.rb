@@ -1,6 +1,6 @@
 @lets_fight = true
 
-def choose_fighter
+def choose_player1
     puts ""
     puts "#{@player}, Choose Your Power"
     puts "Type: Brawler, Archer, Mage"
@@ -14,26 +14,31 @@ def choose_fighter
     elsif choice == 'mage'
         @player = Mage.new(@player)
     else
-        choose_fighter
+        choose_player1
     end
-    choose_enemy
+    choose_player2
 end
 
-def choose_enemy
-    @enemy_fighter_number = rand(3)
-    if @enemy_fighter_number == 0
-        @enemy = Brawler.new(@enemy)
-    end
-    if @enemy_fighter_number == 1
-        @enemy = Archer.new(@enemy)
-    end
-    if @enemy_fighter_number == 2
-        @enemy = Mage.new(@enemy)
+def choose_player2
+    puts ""
+    puts "#{@player2}, Choose Your Power"
+    puts "Type: Brawler, Archer, Mage"
+    puts ""
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    choice = gets.chomp.downcase
+    if choice == 'brawler'
+        @player2 = Brawler.new(@player2)
+    elsif choice == 'archer'
+        @player2 = Archer.new(@player2)
+    elsif choice == 'mage'
+        @player2 = Mage.new(@player2)
+    else
+        choose_player2
     end
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     puts ""
     @player.is
-    @enemy.is
+    @player2.is
     puts ""
     player_turn
 end
@@ -41,7 +46,7 @@ end
 def player_turn
     puts "========================================================================"
     puts ""
-    puts "Attack: #{@player.name} Press Enter"
+    puts "#{@player.name} Press Enter For Attack"
     choice = gets.chomp.downcase
     puts "========================================================================"
     puts ""
@@ -61,73 +66,79 @@ def player_turn
     else
         player_turn
     end
-    @enemy.hp -= $damage
-    if @enemy.hp < 1
-        @enemy.hp = 0
+    @player2.hp -= $damage
+    if @player2.hp < 1
+        @player2.hp = 0
     end
     puts ""
-    puts "#{@enemy.name} has #{@enemy.hp} HP"
+    puts "#{@player2.name} has #{@player2.hp} HP"
     puts "#{@player.name} has #{@player.hp} HP"
     puts ""
-    if @enemy.hp < 1
-        winner
+    if @player.hp < 1 || @player2.hp < 1
+        gameover
     else
-        enemy_turn
+        player2_turn
     end
 end
 
-def enemy_turn
+def player2_turn
     puts "------------------------------------------------------------------------"
     puts ""
-    puts "Defense: #{@player.name} Press Enter "
+    puts "#{@player2.name} Press Enter For Attack"
     choice = gets.chomp.downcase
-    $damage = 0
     puts "------------------------------------------------------------------------"
     puts ""
-    choice = rand(3)
-    if choice == 0
-        @enemy.attack_1
-    elsif choice == 1
-        @enemy.attack_2
-    elsif choice == 2
-        @enemy.power_up
+    $damage = 0
+    @player2.choose
+    puts ""
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    choice = gets.chomp.downcase
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+    puts ""
+    if choice == @player2.attack1.downcase
+        @player2.attack_1    
+    elsif choice == @player2.attack2.downcase
+        @player2.attack_2
+    elsif choice == @player2.powerup.downcase
+        @player2.power_up
+    else
+        player2_turn
     end
     @player.hp -= $damage
-    if @player.hp < 1 
+    if @player.hp < 1
         @player.hp = 0
     end
     puts ""
-    puts "#{@enemy.name} has #{@enemy.hp} HP"
+    puts "#{@player2.name} has #{@player2.hp} HP"
     puts "#{@player.name} has #{@player.hp} HP"
     puts ""
-    if @player.hp < 1
-        loser
+    if @player.hp < 1 || @player2.hp < 1
+        gameover
     else
         player_turn
     end
 end
 
-def winner
-    puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
-    puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
-    puts ""
-    puts "#{@player.name} Wins"
-    puts ""
-    puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
-    puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
-    puts ""
-    @lets_fight = false
-end
-
-def loser
-    puts " :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :( "
-    puts "   :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(   "
-    puts ""
-    puts "#{@player.name} Loses"
-    puts ""
-    puts "   :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(   "
-    puts " :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :(  :( "
-    puts ""
+def gameover
+    if @player.hp < 1
+        puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
+        puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
+        puts ""
+        puts "#{@player2.name} Wins ||| #{@player.name} Loses"
+        puts ""
+        puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
+        puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
+        puts ""
+    elsif @player2.hp < 1
+        puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
+        puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
+        puts ""
+        puts "#{@player.name} Wins ||| #{@player2.name} Loses"
+        puts ""
+        puts "   :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)   "
+        puts " :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :)  :) "
+        puts ""
+    end
     @lets_fight = false
 end
 
@@ -282,18 +293,18 @@ while @lets_fight == true
     puts ""
     puts "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     puts ""
-    puts "Enter Fighter Name"
+    puts "Player 1: Enter Fighter Name"
     puts ""
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     choice = gets.chomp
     @player = choice
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     puts ""
-    puts "Enter Name of Enemy"
+    puts "Player 2: Enter Fighter Name"
     puts ""
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     choice = gets.chomp
-    @enemy = choice
+    @player2 = choice
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-    choose_fighter
+    choose_player1
 end
