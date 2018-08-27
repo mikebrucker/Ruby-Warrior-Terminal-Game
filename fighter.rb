@@ -251,7 +251,7 @@ class Mage < Fighter
     def attack_2
         $damage = rand(30..40) - rand(3..20)
         if @powerup_ability
-            $damage *= 1.5
+            $damage = ($damage * 1.5).round
             puts "Conjure Adds %50 Damage"
         end
         @powerup_ability = false
