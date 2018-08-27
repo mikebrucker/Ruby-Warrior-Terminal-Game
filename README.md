@@ -6,7 +6,7 @@ It’s going to be a battle royale object oriented style! Provided is the outlin
 
 Create a game loop, similar to the text adventure where you instantiate two fighter subclasses. One of them will be the computer, and one will be player controlled. Each turn (or pass on the loop) will require an input from you from the terminal that asks which attack to use. Then it will perform that attack on the computer. Then the computer should attack you back. The game should proceed until someone runs out of life and the match winner is announced.
 
--class Fighter 
+- class Fighter 
 -  def initialize(name)
 -    @name = name
 -    @life = 10
