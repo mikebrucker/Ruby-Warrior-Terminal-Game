@@ -22,6 +22,5 @@ Create a game loop, similar to the text adventure where you instantiate two figh
 #  def take_damage(incoming_damage)
 #    #implement being attacked. Puts message that they are being attacked.  Remove equivalent amount of life from incoming attack
 #  end
-#end
 
 Bonus: Create unique abilities, such as a defend or power up ability. These can modify the attacks by either increasing or decreasing their power for the next turn(s).
