@@ -1,9 +1,10 @@
+require 'rainbow'
 @lets_fight = true
 
 def choose_player1
     puts ""
-    puts "#{@player}, Choose Your Power"
-    puts "Type: Brawler, Archer, Mage"
+    puts Rainbow("#{@player}").cyan + ", Choose Your Power"
+    puts Rainbow("Type: Brawler, Archer, Mage").purple
     puts ""
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     choice = gets.chomp.downcase
@@ -21,8 +22,8 @@ end
 
 def choose_player2
     puts ""
-    puts "#{@player2}, Choose Your Power"
-    puts "Type: Brawler, Archer, Mage"
+    puts Rainbow("#{@player2}").cyan + ", Choose Your Power"
+    puts Rainbow("Type: Brawler, Archer, Mage").purple
     puts ""
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
     choice = gets.chomp.downcase
@@ -71,8 +72,7 @@ def player_turn
         @player2.hp = 0
     end
     puts ""
-    puts "#{@player2.name} has #{@player2.hp} HP"
-    puts "#{@player.name} has #{@player.hp} HP"
+    player_hp
     puts ""
     if @player.hp < 1 || @player2.hp < 1
         gameover
@@ -109,8 +109,7 @@ def player2_turn
         @player.hp = 0
     end
     puts ""
-    puts "#{@player2.name} has #{@player2.hp} HP"
-    puts "#{@player.name} has #{@player.hp} HP"
+    player_hp
     puts ""
     if @player.hp < 1 || @player2.hp < 1
         gameover
@@ -142,6 +141,11 @@ def gameover
     @lets_fight = false
 end
 
+def player_hp
+    @player.hp < 25 ? puts(Rainbow("#{@player.name}").cyan + " has " + Rainbow("#{@player.hp} HP").red) : puts(Rainbow("#{@player.name}").cyan + " has " + Rainbow("#{@player.hp} HP").green)
+    @player2.hp < 25 ? puts(Rainbow("#{@player2.name}").cyan + " has " + Rainbow("#{@player2.hp} HP").red) : puts(Rainbow("#{@player2.name}").cyan + " has " + Rainbow("#{@player2.hp} HP").green)
+end
+
 class Fighter
     attr_accessor :hp
     attr_reader :name
@@ -159,19 +163,19 @@ class Fighter
     end
 
     def attack_1
-        puts "#{name} Uses #{attack1} for #{$damage} Damage"
+        puts Rainbow("#{name}").cyan + " Uses " + Rainbow("#{attack1}").darkred + " for " + Rainbow("#{$damage}").red + " Damage"
     end
 
     def attack_2
-        puts "#{name} Uses #{attack2} for #{$damage} Damage"
+        puts Rainbow("#{name}").cyan + " Uses " + Rainbow("#{attack2}").darkred + " for " + Rainbow("#{$damage}").red + " Damage"
     end
     
     def power_up
-        puts "#{name} Uses #{powerup}"
+        puts Rainbow("#{name}").cyan + " Uses " + Rainbow("#{powerup}").blue
     end
 
     def choose
-        puts "#{@name} Choose: #{@attack1}, #{@attack2}, #{@powerup}"
+        puts Rainbow("#{name}").cyan + " Choose: " + Rainbow("#{@attack1}, #{@attack2}, #{@powerup}").orangered
     end
 end
 
@@ -184,7 +188,7 @@ class Brawler < Fighter
         $damage = 15 + rand(11)
         if @powerup_ability 
             self.hp += $damage / 2
-            puts "#{name} leeches #{($damage / 2).to_s} HP"
+            puts Rainbow("#{name} leeches #{($damage / 2).to_s} HP").green
         end
         @powerup_ability = false
         super
@@ -194,7 +198,7 @@ class Brawler < Fighter
         $damage = 5 + rand(5..21)
         if @powerup_ability 
             self.hp += $damage / 2
-            puts "#{name} leeches #{($damage / 2).to_s} HP"
+            puts Rainbow("#{name} leeches #{($damage / 2).to_s} HP").green
         end
         @powerup_ability = false
         super
@@ -202,11 +206,12 @@ class Brawler < Fighter
 
     def power_up
         @powerup_ability = true
+        puts Rainbow("Next attack will leech half damage done").indianred
         super
     end
 
     def is
-        puts "#{@name} is a Brawler with #{@hp} HP"
+        puts Rainbow("#{@name} is a Brawler with #{@hp} HP").firebrick
     end
 end
 
@@ -240,7 +245,7 @@ class Archer < Fighter
     end
     
     def is
-        puts "#{@name} is a Archer with #{@hp} HP"
+        puts Rainbow("#{@name} is an Archer with #{@hp} HP").seagreen
     end
 end
 
@@ -277,7 +282,7 @@ class Mage < Fighter
     end
 
     def is
-        puts "#{@name} is a Mage with #{@hp} HP"
+        puts Rainbow("#{@name} is a Mage with #{@hp} HP").dodgerblue
     end
 end
 
