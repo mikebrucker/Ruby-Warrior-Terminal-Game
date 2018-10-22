@@ -1,4 +1,4 @@
-# Ruby-Warrior-Game-Workshop
+# Ruby-Warrior-Terminal-Game
 
 Ruby Object Oriented Battle Text Based Game in Terminal
 
